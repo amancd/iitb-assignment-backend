@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    image: atomdyno/courses-backend       # ✅ Use image, not build
+    container_name: courses-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dpg-d19e5d2li9vc739v9k40-a.singapore-postgres.render.com:5432/coursesdb
+      - SPRING_DATASOURCE_USERNAME=coursesdb_user
+      - SPRING_DATASOURCE_PASSWORD=PAPY8n31oyjWKtTQS7L0zVjir5znEAmT
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+
+  frontend:
+    image: atomdyno/courses-frontend       # ✅ Use image, not build
+    container_name: courses-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
